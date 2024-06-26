@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     profilePicture:{
         type:String,
         default:'https://e1.pxfuel.com/desktop-wallpaper/838/654/desktop-wallpaper-hyper-gaming-logo-gaming-profile-thumbnail.jpg',
-    }
+    },
+    isAdmin:{
+        type:Boolean,
+        default:false
+    },
 }
   ,{timestamps:true}
 );
