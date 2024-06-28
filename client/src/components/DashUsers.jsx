@@ -33,6 +33,7 @@ export default function DashUsers() {
 
     const handleShowMore=async()=>{
         const startIndex=users.length;
+        
         try {
             const res=await fetch(`/api/user/getusers?&startIndex=${
                 startIndex
@@ -50,18 +51,31 @@ export default function DashUsers() {
     }
 
     const handleDeleteUser=async()=>{
-
+        try {
+            const res = await fetch(`/api/user/delete/${userIdToDelete}`,{
+                method:'DELETE',
+            });
+            const data=res.json;
+            if(res.ok){
+                setUsers((prev)=>prev.filter((user)=>user._id!==userIdToDelete));
+                setShowModal(false);
+            }else{
+                console.log(data.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
       dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500' >
-        {currentUser.isAdmin && users.length>0?(
+        {currentUser?.isAdmin && users.length > 0 ? (
             <>
             <Table hoverable className='shadow-md' >
                 <Table.Head>
                 <Table.HeadCell>Date created</Table.HeadCell>
-                <Table.HeadCell>User image</Table.HeadCell>
+                <Table.HeadCell>User image</Table.HeadCell> 
                 <Table.HeadCell>Username</Table.HeadCell>
                 <Table.HeadCell>Email</Table.HeadCell>
                 <Table.HeadCell>Admin</Table.HeadCell>
